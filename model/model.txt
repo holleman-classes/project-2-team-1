@@ -8,4 +8,4 @@ window_step_ms    = 40
 num_filters       = 32
 use_microfrontend = True
 label_list        = ['_silence', '_unknown', 'computer', 'yes']
-spectrogram_shape = (64, 24, 32, 1)
+spectrogram_shape = (1, 24, 32, 1)
