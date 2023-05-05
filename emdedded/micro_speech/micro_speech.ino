@@ -45,7 +45,7 @@ int32_t previous_time = 0;
 // Create an area of memory to use for input, output, and intermediate arrays.
 // The size of this will depend on the model you're using, and may need to be
 // determined by experimentation.
-constexpr int kTensorArenaSize = 100 * 1024;
+constexpr int kTensorArenaSize = 20 * 1024;
 uint8_t tensor_arena[kTensorArenaSize];
 int8_t feature_buffer[kFeatureElementCount];
 int8_t* model_input_buffer = nullptr;
@@ -214,7 +214,6 @@ if ((model_input->dims->size != 4) ||
   Serial.println("Exit Setup");
 }
 
-// The name of this function is important for Arduino compatibility.
 void loop() {
   // Fetch the spectrogram for the current time.
   const int32_t current_time = LatestAudioTimestamp();
@@ -237,6 +236,9 @@ void loop() {
     model_input_buffer[i] = feature_buffer[i];
   }
 
+  // Measure inference time
+  uint32_t start_time = micros();
+
   // Run the model on the spectrogram input and make sure it succeeds.
   TfLiteStatus invoke_status = interpreter->Invoke();
   if (invoke_status != kTfLiteOk) {
@@ -257,9 +259,20 @@ void loop() {
                          "RecognizeCommands::ProcessLatestResults() failed");
     return;
   }
+
+  // Measure inference time
+  uint32_t end_time = micros();
+  uint32_t inference_time = end_time - start_time;
+  
+  // Print inference time
+  //Serial.print("Inference time: ");
+  //Serial.print(inference_time);
+  //Serial.println(" us");
+
   // Do something based on the recognized command. The default implementation
   // just prints to the error console, but you should replace this with your
   // own function for a real application.
   RespondToCommand(error_reporter, current_time, found_command, score,
                    is_new_command);
 }
+

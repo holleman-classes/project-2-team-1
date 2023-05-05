@@ -1,6 +1,0 @@
-
-computer\computer_Sample130_NoShift_0.wav
-computer\computer_Sample158_RShift2_1.wav
-computer\computer_Sample131_NoShift_0.wav
-computer\computer_Sample50_RShift1_1.wav
-computer\computer_Sample84_LShift2_0.wav
