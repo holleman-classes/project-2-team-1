@@ -45,7 +45,7 @@ int32_t previous_time = 0;
 // Create an area of memory to use for input, output, and intermediate arrays.
 // The size of this will depend on the model you're using, and may need to be
 // determined by experimentation.
-constexpr int kTensorArenaSize = 20 * 1024;
+constexpr int kTensorArenaSize = 100 * 1024;
 uint8_t tensor_arena[kTensorArenaSize];
 int8_t feature_buffer[kFeatureElementCount];
 int8_t* model_input_buffer = nullptr;
@@ -214,6 +214,7 @@ if ((model_input->dims->size != 4) ||
   Serial.println("Exit Setup");
 }
 
+
 void loop() {
   // Fetch the spectrogram for the current time.
   const int32_t current_time = LatestAudioTimestamp();
@@ -248,6 +249,7 @@ void loop() {
 
   // Obtain a pointer to the output tensor
   TfLiteTensor* output = interpreter->output(0);
+
   // Determine whether a command was recognized based on the output of inference
   const char* found_command = nullptr;
   uint8_t score = 0;
@@ -260,19 +262,27 @@ void loop() {
     return;
   }
 
+  RespondToCommand(error_reporter, current_time, found_command, score, is_new_command);
+  
   // Measure inference time
   uint32_t end_time = micros();
   uint32_t inference_time = end_time - start_time;
-  
+
+  // Convert to milliseconds
+  float inference_time_ms = inference_time / 1000.0;
+
+// for (int i = 0; i < output->dims->data[1]; i++) {
+//   Serial.print("Label ");
+//   Serial.print(i);
+//   Serial.print(": ");
+//   Serial.println(output->data.uint8[i]);
+// }
+
   // Print inference time
   //Serial.print("Inference time: ");
-  //Serial.print(inference_time);
-  //Serial.println(" us");
-
-  // Do something based on the recognized command. The default implementation
-  // just prints to the error console, but you should replace this with your
-  // own function for a real application.
-  RespondToCommand(error_reporter, current_time, found_command, score,
-                   is_new_command);
+  //Serial.print(inference_time_ms);
+  //Serial.println(" ms");  
 }
+
+
 

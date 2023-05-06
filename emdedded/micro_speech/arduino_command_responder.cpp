@@ -45,7 +45,7 @@ void RespondToCommand(tflite::ErrorReporter* error_reporter,
   }
   static int32_t last_command_time = 0;
   static int count = 0;
-  static int certainty = 10;//220
+  static int certainty = 220;
 
   if (is_new_command) {
     TF_LITE_REPORT_ERROR(error_reporter, "Heard %s (%d) @%dms", found_command,
@@ -91,3 +91,4 @@ void RespondToCommand(tflite::ErrorReporter* error_reporter,
 }
 
 #endif  // ARDUINO_EXCLUDE_CODE
+

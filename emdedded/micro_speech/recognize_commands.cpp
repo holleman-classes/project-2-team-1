@@ -16,6 +16,7 @@ limitations under the License.
 #include "recognize_commands.h"
 
 #include <limits>
+#include <cstring>
 
 RecognizeCommands::RecognizeCommands(tflite::ErrorReporter* error_reporter,
                                      int32_t average_window_duration_ms,
@@ -107,15 +108,37 @@ TfLiteStatus RecognizeCommands::ProcessLatestResults(
   }
 
   // Find the current highest scoring category.
-  int current_top_index = 0;
-  int32_t current_top_score = 0;
-  for (int i = 0; i < kCategoryCount; ++i) {
-    if (average_scores[i] > current_top_score) {
-      current_top_score = average_scores[i];
-      current_top_index = i;
-    }
+ // int current_top_index = 0;
+//  int32_t current_top_score = 0;
+//  for (int i = 0; i < kCategoryCount; ++i) {
+//    if (average_scores[i] > current_top_score) {
+//      current_top_score = average_scores[i];
+//      current_top_index = i;
+//    }
+//  }
+  
+ //   const char* current_top_label = kCategoryLabels[current_top_index];
+    
+// Find the current highest scoring category.
+int current_top_index = 0;
+int32_t current_top_score = 0;
+for (int i = 0; i < kCategoryCount; ++i) {
+  int32_t score = average_scores[i];
+  if (strcmp(kCategoryLabels[i], "computer") == 0) {
+    score += 52;
   }
-  const char* current_top_label = kCategoryLabels[current_top_index];
+   if (strcmp(kCategoryLabels[i], "yes") == 0) {
+    score += 28;
+  }
+  if (score > current_top_score) {
+    current_top_score = score;
+    current_top_index = i;
+  }
+}
+const char* current_top_label = kCategoryLabels[current_top_index];
+
+
+
 
   // If we've recently had another label trigger, assume one that occurs too
   // soon afterwards is a bad result.
