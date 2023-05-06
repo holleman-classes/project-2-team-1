@@ -271,13 +271,6 @@ void loop() {
   // Convert to milliseconds
   float inference_time_ms = inference_time / 1000.0;
 
-// for (int i = 0; i < output->dims->data[1]; i++) {
-//   Serial.print("Label ");
-//   Serial.print(i);
-//   Serial.print(": ");
-//   Serial.println(output->data.uint8[i]);
-// }
-
   // Print inference time
   //Serial.print("Inference time: ");
   //Serial.print(inference_time_ms);

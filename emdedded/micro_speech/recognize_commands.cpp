@@ -127,8 +127,11 @@ for (int i = 0; i < kCategoryCount; ++i) {
   if (strcmp(kCategoryLabels[i], "computer") == 0) {
     score += 52;
   }
-   if (strcmp(kCategoryLabels[i], "yes") == 0) {
+   else if (strcmp(kCategoryLabels[i], "yes") == 0) {
     score += 28;
+  }
+    else if (strcmp(kCategoryLabels[i], "silence") == 0) {
+    score += 30;
   }
   if (score > current_top_score) {
     current_top_score = score;
