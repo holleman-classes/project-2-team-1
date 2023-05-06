@@ -124,15 +124,15 @@ int current_top_index = 0;
 int32_t current_top_score = 0;
 for (int i = 0; i < kCategoryCount; ++i) {
   int32_t score = average_scores[i];
-  if (strcmp(kCategoryLabels[i], "computer") == 0) {
-    score += 40;
-  }
-   else if (strcmp(kCategoryLabels[i], "yes") == 0) {
-    score += 20;
-  }
-    else if (strcmp(kCategoryLabels[i], "silence") == 0) {
-    score += 50;
-  }
+//  if (strcmp(kCategoryLabels[i], "computer") == 0) {
+//    score += 40;
+//  }
+//   else if (strcmp(kCategoryLabels[i], "yes") == 0) {
+//    score += 20;
+//  }
+//    else if (strcmp(kCategoryLabels[i], "silence") == 0) {
+//    score += 50;
+//  }
   if (score > current_top_score) {
     current_top_score = score;
     current_top_index = i;
